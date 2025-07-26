@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pesan Cinta Romantis</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #fff0f5;
+        color: #333;
+        overflow-x: hidden;
+        background-image: radial-gradient(#ffb6c1 1px, transparent 1px);
+        background-size: 20px 20px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+      }
+
+      h1 {
+        color: #ff69b4;
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .love-letter {
+        background-color: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(255, 105, 180, 0.2);
+        margin-bottom: 40px;
+        position: relative;
+        border: 1px solid #ffb6c1;
+      }
+
+      .love-letter:before {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 15px solid white;
+      }
+
+      .typed-text {
+        min-height: 200px;
+        font-size: 1.2rem;
+        line-height: 1.6;
+        color: #555;
+        text-align: left;
+      }
+
+      .cursor {
+        display: inline-block;
+        width: 8px;
+        height: 20px;
+        background-color: #ff69b4;
+        margin-left: 5px;
+        animation: blink 0.7s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      .quote {
+        font-style: italic;
+        color: #ff69b4;
+        margin: 20px 0;
+        padding: 15px;
+        border-left: 3px solid #ff69b4;
+        background-color: #fff5f9;
+        border-radius: 0 10px 10px 0;
+      }
+
+      .button {
+        background-color: #ff69b4;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        font-size: 1rem;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+        margin: 10px;
+      }
+
+      .button:hover {
+        background-color: #ff1493;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255, 105, 180, 0.6);
+      }
+
+      .heart {
+        position: absolute;
+        pointer-events: none;
+        animation: fall linear forwards;
+        font-size: 20px;
+        color: #ff69b4;
+        z-index: 1;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(100vh);
+        }
+      }
+
+      footer {
+        margin-top: 50px;
+        color: #ff69b4;
+        font-size: 0.9rem;
+      }
+
+      .hearts-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hearts-container" id="hearts-container"></div>
+
+    <div class="container">
+      <h1>❤️ Pesan Cinta Romantis ❤️</h1>
+
+      <div class="love-letter">
+        <div class="typed-text" id="typed-text"></div>
+        <span class="cursor" id="cursor"></span>
+      </div>
+
+      <div class="quote" id="quote">
+        "Cinta sejati tidak pernah berakhir. Jika kamu menemukan akhir, itu
+        bukanlah awal yang sebenarnya."
+      </div>
+
+      <button class="button" id="nextBtn">Pesan Selanjutnya</button>
+      <button class="button" id="quoteBtn">Kata Mutiara Baru</button>
+    </div>
+
+    <footer>Dibuat dengan ❤️ untuk seseorang yang spesial</footer>
+
+    <script>
+      // Daftar pesan cinta
+      const messages = [
+        "Hai sayang... Aku ingin mengungkapkan perasaanku padamu. Setiap kali melihat senyumanmu, hatiku selalu berbunga-bunga.",
+        "Aku mungkin bukan yang terbaik, tapi aku akan berusaha menjadi yang terbaik untukmu. Kamu adalah alasan mengapa aku tersenyum setiap hari.",
+        "Jika cinta adalah bahasa, maka aku ingin berbicara denganmu sepanjang hidupku. Kamu adalah mimpi yang menjadi kenyataan dalam hidupku.",
+        "Di antara miliaran orang di dunia ini, hatiku memilihmu. Bukan karena kebetulan, tapi karena kamu adalah yang terbaik untukku.",
+        "Aku tidak membutuhkan matahari untuk menerangi hariku, karena cahaya dari senyumanmu sudah cukup membuat hidupku terang.",
+      ];
+
+      // Daftar kata mutiara
+      const quotes = [
+        "Cinta bukan tentang memiliki, tapi tentang menghargai.",
+        "Cinta sejati dimulai ketika tidak ada yang kamu harapkan sebagai balasan.",
+        "Cinta adalah ketika kebahagiaan orang lain adalah kebahagiaanmu juga.",
+        "Cinta yang paling indah adalah yang tidak terduga, yang datang tanpa alasan.",
+        "Jika cinta adalah jawabannya, apakah kamu mau menjadi pertanyaannya?",
+        "Cinta itu seperti angin, kamu tidak bisa melihatnya tapi bisa merasakannya.",
+      ];
+
+      // Variabel untuk efek mengetik
+      let currentMessage = 0;
+      let currentChar = 0;
+      let isTyping = false;
+      let typingTimeout;
+
+      // Elemen DOM
+      const typedTextElement = document.getElementById("typed-text");
+      const cursorElement = document.getElementById("cursor");
+      const quoteElement = document.getElementById("quote");
+      const nextBtn = document.getElementById("nextBtn");
+      const quoteBtn = document.getElementById("quoteBtn");
+      const heartsContainer = document.getElementById("hearts-container");
+
+      // Fungsi untuk efek mengetik
+      function typeWriter() {
+        if (currentChar < messages[currentMessage].length) {
+          isTyping = true;
+          cursorElement.style.display = "inline-block";
+          typedTextElement.innerHTML +=
+            messages[currentMessage].charAt(currentChar);
+          currentChar++;
+          typingTimeout = setTimeout(typeWriter, Math.random() * 50 + 50);
+        } else {
+          isTyping = false;
+          cursorElement.style.display = "none";
+        }
+      }
+
+      // Fungsi untuk mengubah pesan
+      function changeMessage() {
+        if (isTyping) {
+          clearTimeout(typingTimeout);
+          isTyping = false;
+        }
+
+        currentMessage = (currentMessage + 1) % messages.length;
+        currentChar = 0;
+        typedTextElement.innerHTML = "";
+        typeWriter();
+      }
+
+      // Fungsi untuk mengubah kata mutiara
+      function changeQuote() {
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        quoteElement.textContent = `"${randomQuote}"`;
+      }
+
+      // Fungsi untuk membuat hujan love
+      function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+        heartsContainer.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 5000);
+      }
+
+      // Event listeners
+      nextBtn.addEventListener("click", changeMessage);
+      quoteBtn.addEventListener("click", changeQuote);
+
+      // Mulai efek mengetik saat halaman dimuat
+      window.onload = function () {
+        typeWriter();
+        // Buat hujan love setiap 300ms
+        setInterval(createHeart, 300);
+      };
+    </script>
+  </body>
+</html>
